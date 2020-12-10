@@ -1,13 +1,34 @@
 file = open(r'day3_data.txt', 'r')
-content = file.readlines()
 
+class Player:
+    def __init__(self, right, down):
+        self.x = 0
+        self.y = 0
+        self.trees = 0
+        self.right = right
+        self.down = down
 
-#x length 31
-width = len(content[0])
+class GameMap:
+    def __init__(self, content):
+        self.content = content
+        #x length 31
+        self.width = len(content[0])
+        #y length 323
+        self.height = len(content)
 
+def getEncounter(player, gameMap):
+    return gameMap.content[player.x][player.y]
 
-#y length 323
-height = len(content)
+def run(player, gameMap):
+    while player.x < gameMap.width:
+        player.x += player.right
+        player.y += player.down
 
-print(width)
-print(height)
+        if getEncounter(player, gameMap) == '#':
+            player.trees += 1
+        print('# of trees: ', player.trees)
+ 
+player = Player(3, 1)
+gameMap = GameMap(file.read().splitlines())
+
+run(player, gameMap)
